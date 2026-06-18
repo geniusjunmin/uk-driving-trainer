@@ -1,0 +1,147 @@
+:root {
+  /* Font families prefer bundled Outfit/Inter when later provided in public/fonts. */
+  --font-family-display: "Outfit", "Inter", ui-sans-serif, system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-family-body: "Inter", "Outfit", ui-sans-serif, system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-family-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  --font-size-2xs: 0.6875rem;
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-md: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.375rem;
+  --font-size-2xl: 1.75rem;
+  --font-size-3xl: 2.25rem;
+  --font-size-hud-speed: clamp(2.5rem, 5vh, 4.5rem);
+
+  --line-height-tight: 1.1;
+  --line-height-title: 1.2;
+  --line-height-body: 1.5;
+  --line-height-coach: 1.35;
+
+  /* Palette: measured road-training UI, with UK signal colors and warm contrast. */
+  --color-road-950: #15181b;
+  --color-road-900: #20252a;
+  --color-road-800: #2d3339;
+  --color-road-700: #414951;
+  --color-road-600: #5a636d;
+  --color-road-500: #737d88;
+  --color-road-300: #b6bec7;
+  --color-road-100: #eef1f3;
+  --color-road-50: #f8fafb;
+
+  --color-sky-700: #256e8c;
+  --color-sky-500: #3c9ab8;
+  --color-sky-100: #e2f3f7;
+
+  --color-grass-700: #3f6f4f;
+  --color-grass-500: #6f9b72;
+  --color-grass-100: #e8f1e7;
+
+  --color-amber-700: #9b5c00;
+  --color-amber-500: #d58a10;
+  --color-amber-100: #fff0cf;
+
+  --color-red-700: #9e2f2f;
+  --color-red-500: #d34d4d;
+  --color-red-100: #fde4e1;
+
+  --color-blue-700: #255d8f;
+  --color-blue-500: #347fb9;
+  --color-blue-100: #e3eff8;
+
+  --color-white: #ffffff;
+  --color-black: #000000;
+
+  --color-surface-page: var(--color-road-50);
+  --color-surface-panel: rgba(248, 250, 251, 0.9);
+  --color-surface-glass: rgba(21, 24, 27, 0.62);
+  --color-surface-glass-strong: rgba(21, 24, 27, 0.78);
+  --color-surface-inverse: var(--color-road-950);
+
+  --color-text-primary: #172026;
+  --color-text-secondary: #4b5560;
+  --color-text-muted: #717b85;
+  --color-text-inverse: #f7fafc;
+  --color-text-on-glass: #f4f8fa;
+
+  --color-border-subtle: rgba(21, 24, 27, 0.12);
+  --color-border-strong: rgba(21, 24, 27, 0.24);
+  --color-border-inverse: rgba(255, 255, 255, 0.2);
+
+  --color-primary: var(--color-sky-700);
+  --color-primary-hover: #1f5f7a;
+  --color-primary-soft: var(--color-sky-100);
+  --color-accent: var(--color-amber-500);
+  --color-accent-soft: var(--color-amber-100);
+  --color-success: var(--color-grass-700);
+  --color-success-soft: var(--color-grass-100);
+  --color-warning: var(--color-amber-500);
+  --color-warning-soft: var(--color-amber-100);
+  --color-danger: var(--color-red-500);
+  --color-danger-soft: var(--color-red-100);
+  --color-info: var(--color-blue-500);
+  --color-info-soft: var(--color-blue-100);
+
+  --space-0: 0;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+
+  --radius-none: 0;
+  --radius-xs: 0.125rem;
+  --radius-sm: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-pill: 999px;
+
+  --shadow-xs: 0 1px 2px rgba(15, 23, 31, 0.1);
+  --shadow-sm: 0 4px 10px rgba(15, 23, 31, 0.12);
+  --shadow-md: 0 10px 24px rgba(15, 23, 31, 0.16);
+  --shadow-lg: 0 18px 44px rgba(15, 23, 31, 0.22);
+  --shadow-hud: 0 12px 32px rgba(0, 0, 0, 0.32);
+  --shadow-focus: 0 0 0 3px rgba(60, 154, 184, 0.35);
+
+  --blur-glass: 10px;
+  --blur-glass-strong: 16px;
+
+  --duration-instant: 80ms;
+  --duration-fast: 140ms;
+  --duration-base: 220ms;
+  --duration-slow: 360ms;
+  --easing-standard: cubic-bezier(0.2, 0, 0, 1);
+  --easing-emphasized: cubic-bezier(0.2, 0, 0, 1.2);
+  --easing-exit: cubic-bezier(0.4, 0, 1, 1);
+
+  --z-index-base: 0;
+  --z-index-scene-overlay: 10;
+  --z-index-hud: 100;
+  --z-index-coach: 120;
+  --z-index-menu: 200;
+  --z-index-modal: 400;
+  --z-index-toast: 500;
+  --z-index-debug: 900;
+
+  --hud-safe-area-top: max(env(safe-area-inset-top), 1rem);
+  --hud-safe-area-right: max(env(safe-area-inset-right), 1rem);
+  --hud-safe-area-bottom: max(env(safe-area-inset-bottom), 1rem);
+  --hud-safe-area-left: max(env(safe-area-inset-left), 1rem);
+  --hud-control-gap: clamp(0.5rem, 1.2vw, 1rem);
+  --hud-panel-min-touch: 2.75rem;
+  --hud-readable-width: min(28rem, calc(100vw - 2rem));
+}
