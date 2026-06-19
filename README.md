@@ -50,6 +50,14 @@ Current browser smoke status:
 * The first screen renders a nonblank right-hand-drive cockpit, road scene, HUD, mirror warning, and bilingual coach prompt.
 * The `?smoke=results` browser path renders the `ResultsPanel` and passed result text.
 
+## Deployment
+
+The GitHub Actions workflow runs the full release gate on every push and pull request. Pushes to `main` also deploy the static bundle to GitHub Pages after Docker image validation succeeds.
+
+Expected production URL:
+
+`https://geniusjunmin.github.io/uk-driving-trainer/`
+
 Do not modify `package.json` or build configuration from documentation tasks. Those files are owned by Architect and DevOps according to `docs/coordinator/agent_contracts.md`.
 
 ## Planned Directory Structure

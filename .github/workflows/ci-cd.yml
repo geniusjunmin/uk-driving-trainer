@@ -11,6 +11,12 @@ on:
 
 permissions:
   contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
 
 jobs:
   build-and-test:
@@ -55,8 +61,52 @@ jobs:
           path: dist
           if-no-files-found: error
 
-  # Optional deployment job examples:
-  # - GitHub Pages can be added with actions/configure-pages, upload-pages-artifact,
-  #   and deploy-pages after enabling Pages in repository settings.
-  # - Vercel deployment can be added with the official Vercel CLI/action once
-  #   project-specific secrets are created in the repository settings.
+      - name: Upload GitHub Pages artifact
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  docker-image:
+    name: Build Docker image
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build image
+        run: docker build -t uk-driving-trainer -f deploy/Dockerfile .
+
+      - name: Run container health check
+        shell: bash
+        run: |
+          docker run -d --rm -p 8080:80 --name uk-driving-trainer-smoke uk-driving-trainer
+          trap 'docker stop uk-driving-trainer-smoke' EXIT
+
+          for attempt in {1..20}; do
+            if curl -fsS http://127.0.0.1:8080/ >/dev/null; then
+              echo "Container responded on attempt ${attempt}."
+              exit 0
+            fi
+            sleep 1
+          done
+
+          docker logs uk-driving-trainer-smoke
+          exit 1
+
+  deploy-pages:
+    name: Deploy GitHub Pages
+    needs:
+      - build-and-test
+      - docker-image
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

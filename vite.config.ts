@@ -2,6 +2,7 @@ import { defineConfig } from 'vite';
 
 export default defineConfig({
   assetsInclude: ['**/*.wasm'],
+  base: './',
   build: {
     assetsInlineLimit: 4096,
     chunkSizeWarningLimit: 2600,

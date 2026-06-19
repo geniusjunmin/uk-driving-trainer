@@ -91,6 +91,39 @@ This log records major handoff events and verification results. Source code, tes
 
 ---
 
+## 2026-06-19 - GitHub Pages And Docker CI Deployment Path
+
+**Agent:** Codex main agent.
+
+**Completed:**
+
+* Configured Vite with relative asset paths so the static bundle works under GitHub Pages project URLs.
+* Updated GitHub Actions to upload the Pages artifact and deploy to GitHub Pages on `main` pushes.
+* Added a CI Docker image job that builds `deploy/Dockerfile`, runs the container on port `8080`, and checks the Nginx health endpoint with `curl`.
+* Updated README and deployment docs with the expected GitHub Pages URL.
+* Updated status files to track remote GitHub Pages and Docker CI evidence separately from local verification.
+
+**Changed files:**
+
+* `.github/workflows/ci-cd.yml`
+* `README.md`
+* `deploy/README.md`
+* `status/CURRENT_CONTEXT.md`
+* `status/NEXT_ACTIONS.md`
+* `status/PROGRESS_LOG.md`
+* `vite.config.ts`
+
+**Verification:**
+
+* `npm.cmd run verify:deploy`: passed locally after the Pages asset-path change.
+
+**Known follow-ups:**
+
+* Confirm the pushed GitHub Actions run deploys Pages successfully.
+* Confirm the expected production URL works after GitHub Pages finishes publishing.
+
+---
+
 ## 2026-06-18 - Initial MVP Build And Deployment Scaffold
 
 **Completed:**
