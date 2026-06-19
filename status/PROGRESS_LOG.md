@@ -156,7 +156,45 @@ This log records major handoff events and verification results. Source code, tes
 
 **Known follow-ups:**
 
-* PMV-006 remains open: review unintegrated `src/scene/TownScene.ts`, `src/ui/LevelSelectUI.ts`, and `src/ui/town.css` before adopting them.
+* PMV-006 was closed in the later gameplay polish pass; keep `LevelSelectUI` as future multi-level menu work.
+
+---
+
+## 2026-06-19 - Gameplay Polish And PMV-006 Closure
+
+**Agent:** Codex main agent with gameplay QA subagent review.
+
+**Completed:**
+
+* Preserved the current visual and driving-feel upgrades in `src/main.ts`, `src/vehicle/CockpitView.ts`, `src/vehicle/PlayerCar.ts`, and `tests/physics/CarPhysics.spec.ts`.
+* Connected HUD-dispatched `indicator-change` events to the active driving state so clickable indicator buttons control the car indicator.
+* Connected HUD-dispatched `camera-switch` events to the active camera mode so the HUD keyboard shortcut can toggle cockpit and third-person views.
+* Added HUD regression coverage for indicator and camera-switch event dispatch.
+* Corrected right-hand-drive cockpit observation mapping: negative yaw is left mirror/blind spot and positive yaw is right mirror/blind spot.
+* Restored nonzero simplified vehicle friction and added steering-direction coverage so right steering yaws and displaces the car right.
+* Reviewed PMV-006: `src/main.ts` remains the canonical playable route; `TownScene` is not adopted because it duplicates scene geometry without the active rule/physics wiring; `LevelSelectUI` remains future menu work until multiple playable levels exist.
+* Marked PMV-006 complete in status handoff files.
+
+**Changed files:**
+
+* `src/main.ts`
+* `src/vehicle/CockpitView.ts`
+* `src/vehicle/PlayerCar.ts`
+* `tests/physics/CarPhysics.spec.ts`
+* `tests/ui/HUD.test.ts`
+* `tests/vehicle/CockpitView.test.ts`
+* `status/CURRENT_CONTEXT.md`
+* `status/NEXT_ACTIONS.md`
+* `status/PROJECT_STATUS.md`
+* `status/PROGRESS_LOG.md`
+
+**Verification:**
+
+* `npm.cmd run verify:deploy`: passed, including 17 test files / 99 tests, production build, and browser smoke.
+
+**Known follow-ups:**
+
+* Add a level-selection first screen only after there are multiple fully wired playable levels.
 
 ---
 

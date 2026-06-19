@@ -43,12 +43,16 @@
 ## 4. 最新验证证据
 
 * `npm.cmd run verify:deploy`: passed on 2026-06-19.
+* Current local gate coverage: 17 test files / 99 tests.
 * GitHub Actions run `27816609843`, attempt 2: `Build and test`, `Build Docker image`, and `Deploy GitHub Pages` all passed.
 * Production URL returned HTTP 200.
 * Remote production smoke passed with `SMOKE_BASE_URL=https://geniusjunmin.github.io/uk-driving-trainer`; screenshot size was 70102 bytes.
 
 ---
 
-## 5. 剩余非阻塞事项
+## 5. PMV-006 审查结论
 
-* PMV-006 remains open: review `src/scene/TownScene.ts`, `src/ui/LevelSelectUI.ts`, and `src/ui/town.css` before adopting the unintegrated level-select/town-scene work.
+* PMV-006 is complete.
+* `src/main.ts` remains the production entry scene.
+* `src/scene/TownScene.ts` is not adopted because it overlaps with the current playable route without the same rule/physics wiring.
+* `src/ui/LevelSelectUI.ts` remains future menu work and should be connected only after multiple playable levels exist.

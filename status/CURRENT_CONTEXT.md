@@ -20,7 +20,7 @@ Do not recreate a nested `uk-driving-trainer/` project directory.
 ## Latest Verified Commands
 
 * `npm.cmd run build`: passed on 2026-06-19.
-* `npm.cmd run test`: passed on 2026-06-19, 16 test files / 95 tests.
+* `npm.cmd run test`: passed on 2026-06-19, 17 test files / 99 tests.
 * `npm.cmd run smoke:browser`: passed on 2026-06-19.
 * `npm.cmd run verify:deploy`: passed on 2026-06-19.
 * Remote production smoke with `SMOKE_BASE_URL=https://geniusjunmin.github.io/uk-driving-trainer`: passed on 2026-06-19, screenshot size 70102 bytes.
@@ -41,7 +41,11 @@ The project has moved from code-complete MVP to a deployed, browser-smoke-verifi
 * CI now builds the Docker image, runs a container health check, and deploys GitHub Pages on `main` pushes.
 * GitHub Actions run `27816609843`, attempt 2, passed build/test, Docker image validation, and GitHub Pages deployment.
 
-## Known Follow-Ups
+## PMV-006 Review Decision
 
-* `src/ui/LevelSelectUI.ts` and `src/ui/town.css` exist as unintegrated work. Review them before putting the level-select screen on the first screen.
-* `src/scene/TownScene.ts` exists as unintegrated scene work. Review it before deciding whether to replace or merge with the current `src/main.ts` route.
+* `src/main.ts` is the canonical playable Level 1 route and now contains the richer current scene work.
+* `src/scene/TownScene.ts` was reviewed and is not adopted into the entry point because it duplicates roads, decoration, and training zones without the current physics/rule integration.
+* `src/ui/LevelSelectUI.ts` and `src/ui/town.css` were reviewed as future menu work. They should not replace the current first screen until multiple real levels are wired.
+* The MVP remains complete with a directly playable first screen, HUD, scoring, results panel, CI deployment, Docker health check, and production smoke.
+* Right-hand-drive observation mapping has been corrected and covered by `tests/vehicle/CockpitView.test.ts`.
+* Simplified vehicle friction is nonzero and covered by forward motion, crash, and steering direction tests.

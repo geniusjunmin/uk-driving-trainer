@@ -81,7 +81,7 @@ const DEFAULT_OPTIONS = Object.freeze({
   aerodynamicDrag: 0.42,
   linearDamping: 0.35,
   angularDamping: 1.8,
-  friction: 1.15,
+  friction: 0.35,
   restitution: 0.08,
 });
 

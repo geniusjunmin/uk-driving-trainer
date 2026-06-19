@@ -6,7 +6,7 @@ describe('PlayerCar Physics Simulation Tests', () => {
   it('should displace the vehicle forward and increase speed when throttle is applied', async () => {
     // 1. Initialize physics world
     const physics = await VehiclePhysics.init();
-    physics.addGround({ friction: 0 });
+    physics.addGround({ friction: 0.35 });
 
     // 2. Instantiate PlayerCar at (0, 0.7, 0) facing forward (yaw = 0)
     const car = new PlayerCar(physics, {
@@ -18,9 +18,9 @@ describe('PlayerCar Physics Simulation Tests', () => {
     expect(initialState.position.z).toBeCloseTo(0);
     expect(initialState.speedMph).toBeCloseTo(0);
 
-    // 3. Simulate throttle application (W key equivalent) for 10 seconds
+    // 3. Simulate throttle application (W key equivalent) for 2 seconds
     const dt = 1 / 60; // 60 FPS
-    const totalSteps = 10 * 60; // 10 seconds
+    const totalSteps = 2 * 60; // 2 seconds
 
     for (let i = 0; i < totalSteps; i++) {
       car.update({ throttle: 1, gear: 'D' }, dt);
@@ -37,7 +37,7 @@ describe('PlayerCar Physics Simulation Tests', () => {
   it('should prevent tunneling and decelerate the car when crashing into a static wall at 100 mph', async () => {
     // 1. Initialize physics world
     const physics = await VehiclePhysics.init();
-    physics.addGround({ friction: 0 });
+    physics.addGround({ friction: 0.35 });
 
     // 2. Instantiate PlayerCar at (0, 0.7, 0)
     const car = new PlayerCar(physics, {
@@ -79,5 +79,23 @@ describe('PlayerCar Physics Simulation Tests', () => {
     expect(maxZ).toBeLessThan(19.5);
     // The final speed should be close to 0 or negative (bouncing back)
     expect(endState.speedMph).toBeLessThan(5);
+  });
+  it('should yaw and displace right when steering right while moving forward', async () => {
+    const physics = await VehiclePhysics.init();
+    physics.addGround({ friction: 0.35 });
+
+    const car = new PlayerCar(physics, {
+      initialPosition: { x: 0, y: 0.7, z: 0 },
+      initialYawRadians: 0,
+    });
+
+    const dt = 1 / 60;
+    for (let i = 0; i < 3 * 60; i++) {
+      car.update({ throttle: 0.8, steering: 1, gear: 'D' }, dt);
+    }
+
+    const finalState = car.getState();
+    expect(finalState.yawDegrees).toBeGreaterThan(5);
+    expect(finalState.position.x).toBeGreaterThan(0.15);
   });
 });

@@ -36,6 +36,9 @@ describe('HUD Unit Tests', () => {
         el.children.push(child);
         return child;
       });
+      el.addEventListener.mockImplementation((eventName: string, handler: EventListener) => {
+        el[`on${eventName}`] = handler;
+      });
       return el;
     };
 
@@ -110,6 +113,28 @@ describe('HUD Unit Tests', () => {
     hud.update(0, 'P', 'hazard');
     expect(self.leftIndicatorElement.classList.add).toHaveBeenCalledWith('is-active');
     expect(self.rightIndicatorElement.classList.add).toHaveBeenCalledWith('is-active');
+  });
+
+  it('should dispatch indicator and camera switch events from interactive controls', () => {
+    const hud = new HUD(container);
+    const self = hud as any;
+
+    self.leftIndicatorElement.onclick();
+    expect(self.hudElement.dispatchEvent).toHaveBeenCalledWith(
+      expect.objectContaining({
+        type: 'indicator-change',
+        detail: { indicator: 'left' },
+      }),
+    );
+
+    self.handleKeyDown({ key: 'c', defaultPrevented: false } as KeyboardEvent);
+    expect(self.hudElement.dispatchEvent).toHaveBeenCalledWith(
+      expect.objectContaining({
+        type: 'camera-switch',
+      }),
+    );
+
+    hud.dispose();
   });
 
   it('should parse and format bilingual coach messages', () => {
