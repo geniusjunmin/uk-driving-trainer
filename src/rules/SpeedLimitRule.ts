@@ -60,14 +60,14 @@ function getFaultMessage(band: SpeedBand, speedMph: number, limitMph: number): s
   const speed = speedMph.toFixed(1);
 
   if (band === 'dangerous') {
-    return `严重超速。Dangerous speeding. Current speed is ${speed} mph, limit is ${limitMph} mph.`;
+    return `严重超速。 (Dangerous speeding. Current speed is ${speed} mph, limit is ${limitMph} mph.)`;
   }
 
   if (band === 'major') {
-    return `明显超速，请立即减速。You are well over the limit. Current speed is ${speed} mph, limit is ${limitMph} mph.`;
+    return `明显超速，请立即减速。 (You are well over the limit. Current speed is ${speed} mph, limit is ${limitMph} mph.)`;
   }
 
-  return `当前限速 ${limitMph} mph，请减速。Limit is ${limitMph} mph, slow down. Current speed is ${speed} mph.`;
+  return `当前限速 ${limitMph} mph，请减速。 (Limit is ${limitMph} mph, slow down. Current speed is ${speed} mph.)`;
 }
 
 export class SpeedLimitRule implements DrivingRule {
@@ -162,7 +162,7 @@ export class SpeedLimitRule implements DrivingRule {
   private trackSustainedViolation(
     context: DrivingContext,
     band: SpeedBand,
-    earliestStartSeconds: number
+    earliestStartSeconds: number,
   ): void {
     if (this.violationBand !== band || this.violationStartedAtSeconds === null) {
       this.violationBand = band;
@@ -179,7 +179,7 @@ export class SpeedLimitRule implements DrivingRule {
     context: DrivingContext,
     assessment: SpeedAssessment,
     speedMph: number,
-    limitMph: number
+    limitMph: number,
   ): DrivingFault {
     return {
       id: `${assessment.ruleId}-${context.timeSeconds}`,

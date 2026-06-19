@@ -53,7 +53,7 @@ describe('LevelManager Integration Tests', () => {
 
     const hudMsg = parent.querySelector('#hud-coach-message');
     expect(hudMsg).not.toBeNull();
-    expect(hudMsg?.querySelector('.hud-coach-message__zh')?.textContent).toContain('欢迎来到英国');
+    expect(hudMsg?.querySelector('.hud-coach-message__zh')?.textContent).toContain('欢迎来到右舵与靠左基础');
 
     // 2. Simulate speeding violation (Limit 30, speed 45 -> dangerous speeding fault triggers instantly)
     const speedingCtx = createBaseContext({
@@ -141,6 +141,49 @@ describe('LevelManager Integration Tests', () => {
 
     // Scoring system should have triggered automatic complete due to 2 dangerous faults
     const record = manager.getScoringSystem().getCurrentRecord();
+    expect(record?.isPassed).toBe(false);
+    expect(parent.querySelector('.results-status.failed')).not.toBeNull();
+
+    manager.dispose();
+    document.body.removeChild(parent);
+  });
+
+  it('should register zebra crossing rules and instantly fail for unsafe pedestrian priority', () => {
+    const parent = document.createElement('div');
+    document.body.appendChild(parent);
+
+    const manager = new LevelManager(parent, {
+      onRetry: vi.fn(),
+    });
+
+    manager.startLevel('level-5', 0.0);
+    manager.update(createBaseContext({
+      timeSeconds: 1.0,
+      speedMph: 8,
+      activeTriggerZones: [{
+        id: 'zebra-zone',
+        label: 'zebra',
+        bounds: { minX: -2, maxX: 2, minZ: -2, maxZ: 2 },
+      }],
+      activeConflictZones: [{
+        id: 'zebra-conflict',
+        label: 'zebra',
+        bounds: { minX: -2, maxX: 2, minZ: -2, maxZ: 2 },
+        entryLaneIds: ['lane1'],
+        exitLaneIds: ['lane1'],
+        priorityRuleIds: ['pedestrian-priority'],
+      }],
+      pedestrians: [{
+        id: 'ped-1',
+        state: 'crossing',
+        crossingId: 'zebra-1',
+        position: { x: 0, y: 0, z: 0 },
+        boundingRadius: 0.5,
+      }],
+    }));
+
+    const record = manager.getScoringSystem().getCurrentRecord();
+    expect(record?.faults.some((fault) => fault.ruleId === 'zebra.fail_crossing_pedestrian')).toBe(true);
     expect(record?.isPassed).toBe(false);
     expect(parent.querySelector('.results-status.failed')).not.toBeNull();
 

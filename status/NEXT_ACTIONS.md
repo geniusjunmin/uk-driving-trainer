@@ -1,11 +1,34 @@
-# Next Actions: UK Right-Hand Drive Trainer
+# Next Actions: UK Driving Trainer
 
-本文件指明下一步必须优先执行的行动项，供 Coordinator 或人类引导后续 Agent 开展工作。
+The original MVP task batch is complete. The project is now in Post-MVP hardening, with the goal of reaching a deployable public build.
 
 ---
 
-## 即时行动项
+## Immediate Priorities
 
-| 任务 ID | 任务描述 | 目标 Agent | 优先级 | 备注 |
+| Task ID | Task | Owner | Priority | Status |
 | :--- | :--- | :--- | :--- | :--- |
-| **暂无** | 当前 30 个登记任务已全部完成。 | Coordinator Agent | 🟢 DONE | 后续新需求应新增任务 ID 后再分配 Agent。 |
+| PMV-001 | Playable Level 1 route wired through the real car, cockpit, HUD, scoring, and results panel | Frontend / Gameplay | HIGH | IN_PROGRESS |
+| PMV-002 | Register all implemented rules in training flow, including zebra crossing and parking | Backend / Training | HIGH | DONE |
+| PMV-003 | Clean user-visible mojibake in active gameplay and results UI | Frontend / UX | HIGH | IN_PROGRESS |
+| PMV-004 | Add integration coverage for rule registration and instant-fail behavior | QA | HIGH | DONE |
+| PMV-005 | Add browser smoke verification for canvas, HUD, and result overlay | QA / DevOps | HIGH | IN_PROGRESS |
+| PMV-006 | Review unintegrated `TownScene` and `LevelSelectUI` work before adopting it | Coordinator | MEDIUM | TODO |
+| PMV-007 | Reduce production bundle warning caused by Rapier chunk size | Architect / DevOps | MEDIUM | TODO |
+| PMV-008 | Verify Docker image build when Docker CLI is available | DevOps | MEDIUM | BLOCKED |
+
+## Acceptance Gates For Deployable Build
+
+* `npm.cmd run build` passes.
+* `npm.cmd run test` passes.
+* Browser smoke test proves the app renders a nonblank 3D scene.
+* HUD speed/gear/indicator updates during player input.
+* At least one level can complete and show `ResultsPanel`.
+* No obvious mojibake appears in the first-run gameplay, HUD, coach prompts, or results panel.
+* Deployment path is documented for static hosting and Docker/Nginx.
+
+## Latest Smoke Evidence
+
+* 2026-06-19: Headless Chrome opened the production `dist/` build through a temporary static server.
+* Screenshot output was nonblank and showed the 3D cockpit, road, HUD speed/gear controls, mirror warning, and coach prompt.
+* Remaining browser-smoke gap: automate result overlay appearance through a gameplay or test hook path.

@@ -39,7 +39,13 @@ Verified commands:
 | `npm install` | Install project dependencies. | Verified |
 | `npm run dev` | Start the local Vite development server. | Verified |
 | `npm run build` | Build the production bundle. | Verified |
-| `npm run test` | Run the unit and simulation test suite. | Verified: 14 files / 77 tests |
+| `npm run test` | Run the unit and simulation test suite. | Verified: 16 files / 95 tests |
+
+Current browser smoke status:
+
+* Production `dist/` build opens in headless Chrome.
+* The first screen renders a nonblank right-hand-drive cockpit, road scene, HUD, mirror warning, and bilingual coach prompt.
+* Result overlay behavior is covered by integration tests; automated browser-path coverage is still a Post-MVP hardening task.
 
 Do not modify `package.json` or build configuration from documentation tasks. Those files are owned by Architect and DevOps according to `docs/coordinator/agent_contracts.md`.
 
