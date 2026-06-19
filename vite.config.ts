@@ -4,6 +4,7 @@ export default defineConfig({
   assetsInclude: ['**/*.wasm'],
   build: {
     assetsInlineLimit: 4096,
+    chunkSizeWarningLimit: 2600,
     cssCodeSplit: true,
     minify: 'esbuild',
     rollupOptions: {

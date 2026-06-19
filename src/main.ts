@@ -49,6 +49,7 @@ const keys: KeyState = {
 
 let indicator: Indicator = 'off';
 let gear: Gear = 'D';
+const smokeMode = new URLSearchParams(window.location.search).get('smoke');
 
 const scene = new Scene();
 scene.background = new Color(0x9fc7df);
@@ -303,6 +304,17 @@ async function start(): Promise<void> {
   let elapsedSeconds = 0;
   let lastFrameSeconds = performance.now() / 1000;
   let completed = false;
+  let smokeResultShown = false;
+
+  if (smokeMode === 'results') {
+    window.setTimeout(() => {
+      if (!smokeResultShown) {
+        smokeResultShown = true;
+        completed = true;
+        levelManager.completeLevel(Math.max(elapsedSeconds, 1.2));
+      }
+    }, 1_200);
+  }
 
   window.addEventListener('keydown', (event) => updateKey(event, true));
   window.addEventListener('keyup', (event) => updateKey(event, false));
@@ -344,6 +356,12 @@ async function start(): Promise<void> {
     });
 
     levelManager.update(createContext(elapsedSeconds, deltaSeconds, car, cockpit));
+
+    if (!smokeResultShown && smokeMode === 'results' && elapsedSeconds > 1.2) {
+      smokeResultShown = true;
+      completed = true;
+      levelManager.completeLevel(elapsedSeconds);
+    }
 
     if (!completed && state.position.z > 34 && state.speedMph < 3) {
       completed = true;

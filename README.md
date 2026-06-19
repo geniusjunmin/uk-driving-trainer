@@ -30,6 +30,7 @@ npm install
 npm run dev
 npm run build
 npm run test
+npm run verify:deploy
 ```
 
 Verified commands:
@@ -40,12 +41,14 @@ Verified commands:
 | `npm run dev` | Start the local Vite development server. | Verified |
 | `npm run build` | Build the production bundle. | Verified |
 | `npm run test` | Run the unit and simulation test suite. | Verified: 16 files / 95 tests |
+| `npm run smoke:browser` | Serve `dist/` and run a headless Chrome smoke test. | Verified: cockpit/HUD and results overlay |
+| `npm run verify:deploy` | Run tests, build, and browser smoke as a release gate. | Verified |
 
 Current browser smoke status:
 
 * Production `dist/` build opens in headless Chrome.
 * The first screen renders a nonblank right-hand-drive cockpit, road scene, HUD, mirror warning, and bilingual coach prompt.
-* Result overlay behavior is covered by integration tests; automated browser-path coverage is still a Post-MVP hardening task.
+* The `?smoke=results` browser path renders the `ResultsPanel` and passed result text.
 
 Do not modify `package.json` or build configuration from documentation tasks. Those files are owned by Architect and DevOps according to `docs/coordinator/agent_contracts.md`.
 

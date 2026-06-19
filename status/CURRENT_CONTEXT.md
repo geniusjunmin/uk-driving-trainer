@@ -20,8 +20,10 @@ Do not recreate a nested `uk-driving-trainer/` project directory.
 
 * `npm.cmd run build`: passed on 2026-06-19.
 * `npm.cmd run test`: passed on 2026-06-19, 16 test files / 95 tests.
+* `npm.cmd run smoke:browser`: passed on 2026-06-19.
+* `npm.cmd run verify:deploy`: passed on 2026-06-19.
 
-The build currently emits a Vite chunk-size warning for Rapier. This is an optimization item, not a functional failure.
+The Vite chunk-size warning for Rapier has been handled by setting an explicit bundle warning limit that matches the known physics vendor chunk.
 
 ## Active Post-MVP Hardening Work
 
@@ -33,11 +35,11 @@ The current development focus is moving from a code-complete MVP to a deployable
 * Make critical dangerous faults such as zebra crossing failures and parking collisions trigger immediate failure.
 * Clean user-visible mojibake in `LevelManager`, `ResultsPanel`, and `SpeedLimitRule`.
 * Keep tests green while expanding coverage for rule registration and instant failure.
+* CI now runs browser smoke after the production build.
 
 ## Known Follow-Ups
 
 * `src/ui/LevelSelectUI.ts` and `src/ui/town.css` exist as unintegrated work and still contain mojibake. Do not put them on the first screen until cleaned and tested.
 * `src/scene/TownScene.ts` exists as unintegrated scene work. Review it before deciding whether to replace or merge with the current `src/main.ts` route.
-* Add browser-level smoke coverage for “load page, canvas renders, HUD updates, result panel can appear.”
 * Consider code-splitting Rapier or adjusting chunk strategy before production hosting.
 * Verify Docker build once Docker CLI is available.

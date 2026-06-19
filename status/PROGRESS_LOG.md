@@ -52,6 +52,45 @@ This log records major handoff events and verification results. Source code, tes
 
 ---
 
+## 2026-06-19 - Deploy Gate And Browser Smoke Automation
+
+**Agent:** Codex main agent with deployment explorer subagent review.
+
+**Completed:**
+
+* Added `scripts/browser-smoke.mjs`, a dependency-free headless Chrome smoke runner for the production `dist/` bundle.
+* Added `npm run smoke:browser` and `npm run verify:deploy`.
+* Added a controlled `?smoke=results` browser path so release validation can prove that `ResultsPanel` renders without relying on manual driving input.
+* Added browser smoke to GitHub Actions after the production build.
+* Updated deployment documentation to make `verify:deploy` the release gate.
+* Raised Vite `chunkSizeWarningLimit` to match the known Rapier vendor chunk, removing the expected production warning while retaining explicit bundle output.
+* Updated README and status files with the current deploy gate evidence.
+
+**Changed files:**
+
+* `.github/workflows/ci-cd.yml`
+* `README.md`
+* `deploy/README.md`
+* `package.json`
+* `scripts/browser-smoke.mjs`
+* `src/main.ts`
+* `status/CURRENT_CONTEXT.md`
+* `status/NEXT_ACTIONS.md`
+* `status/PROGRESS_LOG.md`
+* `vite.config.ts`
+
+**Verification:**
+
+* `npm.cmd run verify:deploy`: passed.
+* Gate coverage: 16 test files / 95 tests, production build, nonblank headless Chrome screenshot, and results overlay DOM check.
+
+**Known follow-ups:**
+
+* Docker build still requires Docker CLI availability.
+* Formal deployment target still needs to be selected and configured, such as GitHub Pages, Vercel, Cloudflare Pages, or another host.
+
+---
+
 ## 2026-06-18 - Initial MVP Build And Deployment Scaffold
 
 **Completed:**

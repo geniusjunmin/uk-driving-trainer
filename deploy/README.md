@@ -24,8 +24,15 @@ For static platforms such as GitHub Pages, Netlify, Cloudflare Pages, or Vercel:
 
 ```bash
 npm ci
-npm run test
-npm run build
+npm run verify:deploy
 ```
 
 Publish the generated `dist/` directory. The app is an SPA, so configure the host to serve `index.html` for unknown routes. The included `nginx.conf` already applies that fallback for container deployments.
+
+`verify:deploy` runs the unit/integration suite, builds `dist/`, starts a temporary static server, and opens the production bundle in headless Chrome. The browser smoke checks both the first rendered cockpit/HUD screen and the results overlay path used by release validation.
+
+If the browser smoke cannot find Chrome automatically, set `CHROME_BIN` to a Chrome or Edge executable before running:
+
+```bash
+CHROME_BIN=/path/to/chrome npm run smoke:browser
+```

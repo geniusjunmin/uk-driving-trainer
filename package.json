@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
-    "test": "vitest run --passWithNoTests"
+    "test": "vitest run --passWithNoTests",
+    "smoke:browser": "node scripts/browser-smoke.mjs",
+    "verify:deploy": "npm run test && npm run build && npm run smoke:browser"
   },
   "dependencies": {
     "@dimforge/rapier3d-compat": "^0.17.3",
