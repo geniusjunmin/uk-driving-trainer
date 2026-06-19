@@ -20,7 +20,7 @@ Do not recreate a nested `uk-driving-trainer/` project directory.
 ## Latest Verified Commands
 
 * `npm.cmd run build`: passed on 2026-06-19.
-* `npm.cmd run test`: passed on 2026-06-19, 17 test files / 99 tests.
+* `npm.cmd run test`: passed on 2026-06-19, 17 test files / 100 tests.
 * `npm.cmd run smoke:browser`: passed on 2026-06-19.
 * `npm.cmd run verify:deploy`: passed on 2026-06-19.
 * Remote production smoke with `SMOKE_BASE_URL=https://geniusjunmin.github.io/uk-driving-trainer`: passed on 2026-06-19, screenshot size 70102 bytes.
@@ -48,4 +48,5 @@ The project has moved from code-complete MVP to a deployed, browser-smoke-verifi
 * `src/ui/LevelSelectUI.ts` and `src/ui/town.css` were reviewed as future menu work. They should not replace the current first screen until multiple real levels are wired.
 * The MVP remains complete with a directly playable first screen, HUD, scoring, results panel, CI deployment, Docker health check, and production smoke.
 * Right-hand-drive observation mapping has been corrected and covered by `tests/vehicle/CockpitView.test.ts`.
+* Right-hand-drive visual layout has been corrected so the steering wheel reads on the screen-right driver side and both exterior mirrors stay visible in cockpit view.
 * Simplified vehicle friction is nonzero and covered by forward motion, crash, and steering direction tests.

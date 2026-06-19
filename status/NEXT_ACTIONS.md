@@ -34,11 +34,12 @@ The original MVP task batch is complete. The project is now in Post-MVP hardenin
 
 * 2026-06-19: `npm.cmd run verify:deploy` passed after gameplay polish and right-hand-drive observation fixes.
 * The release gate runs Vitest, production build, and headless Chrome browser smoke.
-* Current gate coverage: 17 test files / 99 tests.
+* Current gate coverage: 17 test files / 100 tests.
 * Browser smoke confirms a nonblank cockpit/HUD screenshot and a `?smoke=results` path that renders the results overlay.
 * GitHub Actions run `27816609843`, attempt 2, passed `Build and test`, `Build Docker image`, and `Deploy GitHub Pages`.
 * Production URL `https://geniusjunmin.github.io/uk-driving-trainer/` returned HTTP 200.
 * Remote production smoke passed with `SMOKE_BASE_URL=https://geniusjunmin.github.io/uk-driving-trainer`; screenshot size was 70102 bytes.
 * PMV-006 review completed: current `src/main.ts` route remains the canonical playable scene; the older `TownScene` is not adopted into the entry point because it duplicates route geometry and rule zones. `LevelSelectUI` remains available as future menu work, but the MVP first screen stays directly playable.
 * Right-hand-drive cockpit observation mapping is covered by tests: negative yaw maps to the left mirror/blind spot and positive yaw maps to the right mirror/blind spot.
+* Right-hand-drive visual layout is covered by tests: steering wheel is placed on the visible driver side and side mirror planes render as cockpit foreground.
 * Vehicle physics now uses nonzero simplified sliding friction and includes a regression test proving right steering yaws and displaces the car right.

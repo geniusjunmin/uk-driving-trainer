@@ -49,4 +49,21 @@ describe('CockpitView observation mapping', () => {
 
     cockpit.dispose();
   });
+
+  it('keeps the visible cockpit laid out as a UK right-hand-drive view', () => {
+    const cockpit = new CockpitView({ mirrorTextureSize: 32 });
+    const steeringWheel = cockpit.object3D.getObjectByName('SteeringWheel_RightHandDrive_VisualRight');
+    const leftMirror = cockpit.getMirror('left').mesh;
+    const rightMirror = cockpit.getMirror('right').mesh;
+
+    expect(steeringWheel?.position.x).toBeLessThan(0);
+    expect(leftMirror.position.x).toBeGreaterThan(0);
+    expect(rightMirror.position.x).toBeLessThan(0);
+    expect(leftMirror.renderOrder).toBeGreaterThan(0);
+    expect(rightMirror.renderOrder).toBeGreaterThan(0);
+    expect(leftMirror.material.depthTest).toBe(false);
+    expect(rightMirror.material.depthTest).toBe(false);
+
+    cockpit.dispose();
+  });
 });

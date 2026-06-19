@@ -43,7 +43,7 @@
 ## 4. 最新验证证据
 
 * `npm.cmd run verify:deploy`: passed on 2026-06-19.
-* Current local gate coverage: 17 test files / 99 tests.
+* Current local gate coverage: 17 test files / 100 tests.
 * GitHub Actions run `27816609843`, attempt 2: `Build and test`, `Build Docker image`, and `Deploy GitHub Pages` all passed.
 * Production URL returned HTTP 200.
 * Remote production smoke passed with `SMOKE_BASE_URL=https://geniusjunmin.github.io/uk-driving-trainer`; screenshot size was 70102 bytes.

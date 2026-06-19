@@ -231,9 +231,9 @@ function createTelemetryTexture(): CanvasTexture {
 }
 
 /**
- * Cockpit local axes use Three.js metres with Y up:
- * +X is the driver's right side, -X is passenger/left side, -Z is forward,
- * and +Z is rearward. This keeps a UK right-hand-drive wheel at positive X.
+ * The playable route drives toward +Z, so this cockpit camera also looks toward +Z.
+ * With that camera orientation, negative local X appears on the driver's screen-right side.
+ * Driver controls are therefore placed at negative X to read as a UK right-hand-drive cockpit.
  */
 export class CockpitView {
   readonly root = new Group();
@@ -265,7 +265,7 @@ export class CockpitView {
       options.near ?? MAIN_NEAR,
       options.far ?? MAIN_FAR,
     );
-    this.camera.position.set(0.38, 1.24, -0.12);
+    this.camera.position.set(-0.38, 1.24, -0.12);
     this.camera.lookAt(this.camera.position.clone().add(localForward));
 
     this.root.name = 'RightHandDriveCockpitView';
@@ -470,6 +470,7 @@ export class CockpitView {
     const metallicMaterial = new MeshStandardMaterial({ color: 0x606872, metalness: 0.8, roughness: 0.25 });
     const chromeTrim = new MeshStandardMaterial({ color: 0xdddddd, metalness: 0.9, roughness: 0.1 });
     const wheelMaterial = new MeshStandardMaterial({ color: 0x0f1113, roughness: 0.65 });
+    wheelMaterial.depthTest = false;
     const screenPlastic = new MeshStandardMaterial({ color: 0x050505, roughness: 0.9 });
     const leatherSeatMat = new MeshStandardMaterial({ color: 0x22252a, roughness: 0.72 });
     
@@ -532,13 +533,13 @@ export class CockpitView {
  
     // 2. Instrument Cluster Hood and Panel
     const clusterHood = new Mesh(new BoxGeometry(0.48, 0.16, 0.22), darkTrim);
-    clusterHood.position.set(0.42, 0.98, 0.56);
+    clusterHood.position.set(-0.42, 0.98, 0.56);
     
     const clusterPanel = new Mesh(
       new PlaneGeometry(0.42, 0.11),
       new MeshBasicMaterial({ color: 0x07090c })
     );
-    clusterPanel.position.set(0.42, 0.98, 0.68);
+    clusterPanel.position.set(-0.42, 0.98, 0.68);
     clusterPanel.rotation.x = -0.1;
     
     // Speedometer and Tachometer dials
@@ -550,7 +551,7 @@ export class CockpitView {
     const borderGeo = new RingGeometry(0.044, 0.046, 24);
     
     const speedDial = new Mesh(dialGeo, dialMaterial);
-    speedDial.position.set(0.35, 0.98, 0.682);
+    speedDial.position.set(-0.49, 0.98, 0.682);
     const speedBorder = new Mesh(borderGeo, dialBorderMaterial);
     speedBorder.position.copy(speedDial.position);
     
@@ -561,7 +562,7 @@ export class CockpitView {
     this.speedNeedle.rotation.z = -1.2;
     
     const tachoDial = new Mesh(dialGeo, dialMaterial);
-    tachoDial.position.set(0.49, 0.98, 0.682);
+    tachoDial.position.set(-0.35, 0.98, 0.682);
     const tachoBorder = new Mesh(borderGeo, dialBorderMaterial);
     tachoBorder.position.copy(tachoDial.position);
     
@@ -574,12 +575,12 @@ export class CockpitView {
     const arrowGeo = new RingGeometry(0.006, 0.015, 3, 1, Math.PI, Math.PI); // rough triangle/arrow
     const arrowMat = new MeshBasicMaterial({ color: 0x22c55e });
     this.leftArrow = new Mesh(arrowGeo, arrowMat);
-    this.leftArrow.position.set(0.41, 1.01, 0.683);
+    this.leftArrow.position.set(-0.43, 1.01, 0.683);
     this.leftArrow.rotation.z = Math.PI / 2; // point left
     this.leftArrow.visible = false;
 
     this.rightArrow = new Mesh(arrowGeo, arrowMat);
-    this.rightArrow.position.set(0.43, 1.01, 0.683);
+    this.rightArrow.position.set(-0.41, 1.01, 0.683);
     this.rightArrow.rotation.z = -Math.PI / 2; // point right
     this.rightArrow.visible = false;
 
@@ -604,7 +605,7 @@ export class CockpitView {
     gpsFrame.add(gpsScreen);
     
     const teleFrame = new Mesh(new BoxGeometry(0.30, 0.18, 0.02), screenPlastic);
-    teleFrame.position.set(0.72, 0.88, 0.60);
+    teleFrame.position.set(-0.72, 0.88, 0.60);
     teleFrame.rotation.y = 0.2;
     teleFrame.rotation.x = -0.1;
     
@@ -619,36 +620,41 @@ export class CockpitView {
  
     // 4. Steering Wheel Group (Rotatable spokes + torus rim)
     this.steeringWheel = new Group();
-    this.steeringWheel.position.set(0.42, 0.86, 0.66);
+    this.steeringWheel.name = 'SteeringWheel_RightHandDrive_VisualRight';
+    this.steeringWheel.position.set(-0.54, 0.9, 0.24);
     this.steeringWheel.rotation.x = -Math.PI * 0.1;
     
-    const rim = new Mesh(new TorusGeometry(0.19, 0.016, 12, 48), wheelMaterial);
-    const boss = new Mesh(new CylinderGeometry(0.045, 0.045, 0.02, 16), metallicMaterial);
+    const rim = new Mesh(new TorusGeometry(0.25, 0.018, 12, 48), wheelMaterial);
+    const boss = new Mesh(new CylinderGeometry(0.06, 0.06, 0.02, 16), metallicMaterial);
     boss.rotation.x = Math.PI / 2;
     
-    const spokeL = new Mesh(new BoxGeometry(0.14, 0.018, 0.01), wheelMaterial);
-    spokeL.position.set(-0.08, 0, 0);
+    const spokeL = new Mesh(new BoxGeometry(0.18, 0.02, 0.01), wheelMaterial);
+    spokeL.position.set(-0.1, 0, 0);
     
-    const spokeR = new Mesh(new BoxGeometry(0.14, 0.018, 0.01), wheelMaterial);
-    spokeR.position.set(0.08, 0, 0);
+    const spokeR = new Mesh(new BoxGeometry(0.18, 0.02, 0.01), wheelMaterial);
+    spokeR.position.set(0.1, 0, 0);
     
-    const spokeD = new Mesh(new BoxGeometry(0.018, 0.14, 0.01), wheelMaterial);
-    spokeD.position.set(0, -0.08, 0);
+    const spokeD = new Mesh(new BoxGeometry(0.02, 0.18, 0.01), wheelMaterial);
+    spokeD.position.set(0, -0.1, 0);
     
     this.steeringWheel.add(rim, boss, spokeL, spokeR, spokeD);
+    this.steeringWheel.renderOrder = 20;
+    this.steeringWheel.traverse((child) => {
+      child.renderOrder = 20;
+    });
     this.cockpitGroup.add(this.steeringWheel);
     
     // Steering column and control stalks
     const steeringColumn = new Mesh(new BoxGeometry(0.07, 0.07, 0.22), wheelMaterial);
-    steeringColumn.position.set(0.42, 0.8, 0.54);
+    steeringColumn.position.set(-0.54, 0.76, 0.16);
     steeringColumn.rotation.x = -Math.PI * 0.16;
     
     const stalkMat = new MeshStandardMaterial({ color: 0x090a0c, roughness: 0.9 });
     const stalkL = new Mesh(new BoxGeometry(0.14, 0.01, 0.01), stalkMat);
-    stalkL.position.set(0.32, 0.82, 0.56);
+    stalkL.position.set(-0.66, 0.74, 0.28);
     stalkL.rotation.y = 0.2;
     const stalkR = new Mesh(new BoxGeometry(0.14, 0.01, 0.01), stalkMat);
-    stalkR.position.set(0.52, 0.82, 0.56);
+    stalkR.position.set(-0.42, 0.74, 0.28);
     stalkR.rotation.y = -0.2;
 
     this.cockpitGroup.add(steeringColumn, stalkL, stalkR);
@@ -670,7 +676,7 @@ export class CockpitView {
     const pedalFaceMat = new MeshStandardMaterial({ color: 0xcccccc, metalness: 0.6, roughness: 0.3 });
 
     this.pedalThrottle = new Group();
-    this.pedalThrottle.position.set(0.46, 0.32, 0.52);
+    this.pedalThrottle.position.set(-0.46, 0.32, 0.52);
     const armT = new Mesh(new BoxGeometry(0.015, 0.18, 0.015), pedalArmMat);
     armT.geometry.translate(0, 0.09, 0);
     const faceT = new Mesh(new BoxGeometry(0.04, 0.10, 0.01), pedalFaceMat);
@@ -679,7 +685,7 @@ export class CockpitView {
     this.pedalThrottle.rotation.x = -Math.PI / 8;
 
     this.pedalBrake = new Group();
-    this.pedalBrake.position.set(0.38, 0.32, 0.52);
+    this.pedalBrake.position.set(-0.38, 0.32, 0.52);
     const armB = new Mesh(new BoxGeometry(0.02, 0.18, 0.02), pedalArmMat);
     armB.geometry.translate(0, 0.09, 0);
     const faceB = new Mesh(new BoxGeometry(0.06, 0.08, 0.01), pedalFaceMat);
@@ -722,8 +728,8 @@ export class CockpitView {
       return seat;
     };
 
-    const driverSeat = createSeat(0.38);
-    const passengerSeat = createSeat(-0.38);
+    const driverSeat = createSeat(-0.38);
+    const passengerSeat = createSeat(0.38);
     this.cockpitGroup.add(driverSeat, passengerSeat);
 
     // Windscreen base trim
@@ -778,18 +784,18 @@ export class CockpitView {
         rearDirection: localBackward,
       }),
       left: this.createMirror('left', textureSize, {
-        meshPosition: new Vector3(-1.12, 1.18, 0.55),
-        meshScale: new Vector3(0.28, 0.18, 1),
-        cameraPosition: new Vector3(-1.08, 1.15, 0.45),
+        meshPosition: new Vector3(0.62, 1.02, 0.72),
+        meshScale: new Vector3(0.34, 0.2, 1),
+        cameraPosition: new Vector3(0.86, 1.12, 0.48),
         rearDirection: localLeftRear,
-        meshRotationY: Math.PI + 0.35,
+        meshRotationY: Math.PI - 0.3,
       }),
       right: this.createMirror('right', textureSize, {
-        meshPosition: new Vector3(1.12, 1.18, 0.55),
-        meshScale: new Vector3(0.28, 0.18, 1),
-        cameraPosition: new Vector3(1.08, 1.15, 0.45),
+        meshPosition: new Vector3(-1.0, 1.02, 0.72),
+        meshScale: new Vector3(0.34, 0.2, 1),
+        cameraPosition: new Vector3(-1.0, 1.12, 0.48),
         rearDirection: localRightRear,
-        meshRotationY: Math.PI - 0.35,
+        meshRotationY: Math.PI + 0.28,
       }),
     };
   }
@@ -815,12 +821,24 @@ export class CockpitView {
       color: new Color(0xffffff),
       map: renderTarget.texture,
       side: DoubleSide,
+      depthTest: false,
     });
     const mesh = new Mesh(new PlaneGeometry(1, 1), material);
     mesh.name = `CockpitMirror_${id}_Plane`;
     mesh.position.copy(config.meshPosition);
     mesh.scale.copy(config.meshScale);
     mesh.rotation.y = config.meshRotationY ?? Math.PI; // Face the camera at negative Z
+    mesh.renderOrder = 30;
+
+    const frame = new Mesh(
+      new PlaneGeometry(1.1, 1.12),
+      new MeshBasicMaterial({ color: 0x101216, side: DoubleSide, depthTest: false }),
+    );
+    frame.name = `CockpitMirror_${id}_Frame`;
+    frame.position.copy(config.meshPosition);
+    frame.scale.copy(config.meshScale);
+    frame.rotation.copy(mesh.rotation);
+    frame.renderOrder = 29;
 
     const camera = new PerspectiveCamera(MIRROR_CAMERA_FOV_DEGREES, 1, MIRROR_NEAR, MIRROR_FAR);
     camera.name = `CockpitMirror_${id}_Camera`;
@@ -830,7 +848,7 @@ export class CockpitView {
 
     const group = new Group();
     group.name = `CockpitMirror_${id}_Group`;
-    group.add(mesh, camera);
+    group.add(frame, mesh, camera);
     this.mirrorGroup.add(group);
 
     return { id, camera, mesh, renderTarget, group };

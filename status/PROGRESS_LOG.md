@@ -198,6 +198,33 @@ This log records major handoff events and verification results. Source code, tes
 
 ---
 
+## 2026-06-19 - Right-Hand-Drive Cockpit Visibility Fix
+
+**Agent:** Codex main agent.
+
+**Completed:**
+
+* Corrected the cockpit visual layout so the steering wheel reads on the right-hand driver side in the active `+Z` driving camera.
+* Raised and foreground-rendered the steering wheel so it is not hidden by the bonnet or dashboard.
+* Repositioned both exterior mirrors into the visible cockpit frame and added mirror frames/foreground rendering so neither side disappears into the scene.
+* Added regression coverage that locks the visible right-hand-drive cockpit layout and side-mirror foreground rendering.
+
+**Changed files:**
+
+* `src/vehicle/CockpitView.ts`
+* `tests/vehicle/CockpitView.test.ts`
+* `status/CURRENT_CONTEXT.md`
+* `status/NEXT_ACTIONS.md`
+* `status/PROJECT_STATUS.md`
+* `status/PROGRESS_LOG.md`
+
+**Verification:**
+
+* `npm.cmd run verify:deploy`: passed, including 17 test files / 100 tests, production build, and browser smoke.
+* Manual screenshot check confirmed the steering wheel is visible on the right side and both exterior mirrors are visible.
+
+---
+
 ## 2026-06-18 - Initial MVP Build And Deployment Scaffold
 
 **Completed:**
