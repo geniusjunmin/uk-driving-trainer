@@ -13,6 +13,7 @@ Do not recreate a nested `uk-driving-trainer/` project directory.
 * Git repository: initialized and pushed to `origin/main`.
 * Remote: `https://github.com/geniusjunmin/uk-driving-trainer.git`
 * Main branch commit before the current hardening work: `768eff1 feat: build UK driving trainer MVP`.
+* Latest deployed production URL: `https://geniusjunmin.github.io/uk-driving-trainer/`.
 * Project stack: Vite, TypeScript, Three.js, Rapier, Vitest.
 * Docker CLI is not installed in this local environment, so Docker validation is handled by GitHub Actions.
 
@@ -22,12 +23,13 @@ Do not recreate a nested `uk-driving-trainer/` project directory.
 * `npm.cmd run test`: passed on 2026-06-19, 16 test files / 95 tests.
 * `npm.cmd run smoke:browser`: passed on 2026-06-19.
 * `npm.cmd run verify:deploy`: passed on 2026-06-19.
+* Remote production smoke with `SMOKE_BASE_URL=https://geniusjunmin.github.io/uk-driving-trainer`: passed on 2026-06-19, screenshot size 70102 bytes.
 
 The Vite chunk-size warning for Rapier has been handled by setting an explicit bundle warning limit that matches the known physics vendor chunk.
 
-## Active Post-MVP Hardening Work
+## Current Post-MVP State
 
-The current development focus is moving from a code-complete MVP to a deployable, playable trainer:
+The project has moved from code-complete MVP to a deployed, browser-smoke-verified public build:
 
 * Replace the old debug grid entry with a playable Level 1 training route.
 * Integrate `PlayerCar`, `VehiclePhysics`, `CockpitView`, `LevelManager`, HUD, and results panel in `src/main.ts`.
@@ -37,10 +39,9 @@ The current development focus is moving from a code-complete MVP to a deployable
 * Keep tests green while expanding coverage for rule registration and instant failure.
 * CI now runs browser smoke after the production build.
 * CI now builds the Docker image, runs a container health check, and deploys GitHub Pages on `main` pushes.
+* GitHub Actions run `27816609843`, attempt 2, passed build/test, Docker image validation, and GitHub Pages deployment.
 
 ## Known Follow-Ups
 
 * `src/ui/LevelSelectUI.ts` and `src/ui/town.css` exist as unintegrated work. Review them before putting the level-select screen on the first screen.
 * `src/scene/TownScene.ts` exists as unintegrated scene work. Review it before deciding whether to replace or merge with the current `src/main.ts` route.
-* Confirm the GitHub Pages workflow run succeeds after the next push.
-* Confirm the Docker CI job succeeds after the next push.

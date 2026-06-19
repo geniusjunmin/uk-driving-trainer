@@ -18,20 +18,30 @@ The expected Pages URL is:
 
 `https://geniusjunmin.github.io/uk-driving-trainer/`
 
-If Pages is not already configured, set the repository Pages source to **GitHub Actions** in the repository settings.
+Pages is configured to use **GitHub Actions** as its source. After deployment, validate the live site with:
+
+```bash
+SMOKE_BASE_URL=https://geniusjunmin.github.io/uk-driving-trainer npm run smoke:browser
+```
+
+PowerShell:
+
+```powershell
+$env:SMOKE_BASE_URL='https://geniusjunmin.github.io/uk-driving-trainer'; npm.cmd run smoke:browser; Remove-Item Env:SMOKE_BASE_URL
+```
 
 ## Local Docker
 
 Build the image from the repository root:
 
 ```bash
-docker build -t uk-driver-trainer -f deploy/Dockerfile .
+docker build -t uk-driving-trainer -f deploy/Dockerfile .
 ```
 
 Run it locally:
 
 ```bash
-docker run --rm -p 8080:80 uk-driver-trainer
+docker run --rm -p 8080:80 uk-driving-trainer
 ```
 
 Open `http://127.0.0.1:8080/`.
@@ -50,6 +60,8 @@ npm run verify:deploy
 Publish the generated `dist/` directory. The app is an SPA, so configure the host to serve `index.html` for unknown routes. The included `nginx.conf` already applies that fallback for container deployments.
 
 `verify:deploy` runs the unit/integration suite, builds `dist/`, starts a temporary static server, and opens the production bundle in headless Chrome. The browser smoke checks both the first rendered cockpit/HUD screen and the results overlay path used by release validation.
+
+`smoke:browser` also supports `SMOKE_BASE_URL` for remote static hosts. When set, the script skips the local `dist/` server and validates the supplied base URL directly.
 
 If the browser smoke cannot find Chrome automatically, set `CHROME_BIN` to a Chrome or Edge executable before running:
 

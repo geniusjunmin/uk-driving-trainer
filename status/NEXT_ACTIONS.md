@@ -15,8 +15,8 @@ The original MVP task batch is complete. The project is now in Post-MVP hardenin
 | PMV-005 | Add browser smoke verification for canvas, HUD, and result overlay | QA / DevOps | HIGH | DONE |
 | PMV-006 | Review unintegrated `TownScene` and `LevelSelectUI` work before adopting it | Coordinator | MEDIUM | TODO |
 | PMV-007 | Reduce production bundle warning caused by Rapier chunk size | Architect / DevOps | MEDIUM | DONE |
-| PMV-008 | Verify Docker image build through CI container health check | DevOps | MEDIUM | IN_PROGRESS |
-| PMV-009 | Deploy production bundle to GitHub Pages from `main` | DevOps | HIGH | IN_PROGRESS |
+| PMV-008 | Verify Docker image build through CI container health check | DevOps | MEDIUM | DONE |
+| PMV-009 | Deploy production bundle to GitHub Pages from `main` | DevOps | HIGH | DONE |
 
 ## Acceptance Gates For Deployable Build
 
@@ -35,4 +35,6 @@ The original MVP task batch is complete. The project is now in Post-MVP hardenin
 * 2026-06-19: `npm.cmd run verify:deploy` passed.
 * The release gate runs Vitest, production build, and headless Chrome browser smoke.
 * Browser smoke confirms a nonblank cockpit/HUD screenshot and a `?smoke=results` path that renders the results overlay.
-* GitHub Actions now includes GitHub Pages deployment and Docker container health-check jobs; remote run evidence is pending after push.
+* GitHub Actions run `27816609843`, attempt 2, passed `Build and test`, `Build Docker image`, and `Deploy GitHub Pages`.
+* Production URL `https://geniusjunmin.github.io/uk-driving-trainer/` returned HTTP 200.
+* Remote production smoke passed with `SMOKE_BASE_URL=https://geniusjunmin.github.io/uk-driving-trainer`; screenshot size was 70102 bytes.

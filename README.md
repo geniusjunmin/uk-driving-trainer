@@ -21,7 +21,7 @@ The first demo should provide a compact UK-style town training route with:
 * Three.js with `WebGLRenderer.setAnimationLoop`
 * Rapier physics
 * Browser runtime: Chrome, Edge, Firefox, and Safari targets
-* Node.js 18+ recommended
+* Node.js 22 recommended; Node.js 20.19+ is the minimum supported runtime for the current Vite toolchain.
 
 ## Development Setup
 
@@ -49,6 +49,7 @@ Current browser smoke status:
 * Production `dist/` build opens in headless Chrome.
 * The first screen renders a nonblank right-hand-drive cockpit, road scene, HUD, mirror warning, and bilingual coach prompt.
 * The `?smoke=results` browser path renders the `ResultsPanel` and passed result text.
+* The same smoke runner can validate the deployed site by setting `SMOKE_BASE_URL`.
 
 ## Deployment
 
@@ -57,6 +58,18 @@ The GitHub Actions workflow runs the full release gate on every push and pull re
 Expected production URL:
 
 `https://geniusjunmin.github.io/uk-driving-trainer/`
+
+Production smoke check:
+
+```bash
+SMOKE_BASE_URL=https://geniusjunmin.github.io/uk-driving-trainer npm run smoke:browser
+```
+
+PowerShell:
+
+```powershell
+$env:SMOKE_BASE_URL='https://geniusjunmin.github.io/uk-driving-trainer'; npm.cmd run smoke:browser; Remove-Item Env:SMOKE_BASE_URL
+```
 
 Do not modify `package.json` or build configuration from documentation tasks. Those files are owned by Architect and DevOps according to `docs/coordinator/agent_contracts.md`.
 

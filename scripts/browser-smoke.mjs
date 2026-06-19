@@ -8,7 +8,8 @@ const projectRoot = process.cwd();
 const distRoot = resolve(projectRoot, 'dist');
 const host = '127.0.0.1';
 const port = Number(process.env.SMOKE_PORT ?? 4173);
-const baseUrl = `http://${host}:${port}`;
+const externalBaseUrl = process.env.SMOKE_BASE_URL?.replace(/\/+$/, '');
+const baseUrl = externalBaseUrl ?? `http://${host}:${port}`;
 const screenshotPath = join(tmpdir(), `uk-driving-trainer-smoke-${Date.now()}.png`);
 
 const mimeTypes = new Map([
@@ -23,7 +24,7 @@ const mimeTypes = new Map([
   ['.svg', 'image/svg+xml'],
 ]);
 
-if (!existsSync(join(distRoot, 'index.html'))) {
+if (!externalBaseUrl && !existsSync(join(distRoot, 'index.html'))) {
   fail('dist/index.html was not found. Run npm run build before browser smoke.');
 }
 
@@ -43,10 +44,12 @@ const commonChromeArgs = [
   '--window-size=1280,720',
 ];
 
-const server = createStaticServer(distRoot);
+const server = externalBaseUrl ? null : createStaticServer(distRoot);
 
 try {
-  await listen(server, port, host);
+  if (server) {
+    await listen(server, port, host);
+  }
 
   await runChrome([
     ...commonChromeArgs,
@@ -74,7 +77,7 @@ try {
   console.log(`Browser smoke passed using ${chromePath}`);
   console.log(`Screenshot bytes: ${screenshotBytes}`);
 } finally {
-  server.close();
+  server?.close();
   if (existsSync(screenshotPath)) {
     unlinkSync(screenshotPath);
   }

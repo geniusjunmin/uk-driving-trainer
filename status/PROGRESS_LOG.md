@@ -122,8 +122,41 @@ This log records major handoff events and verification results. Source code, tes
 
 **Known follow-ups:**
 
-* Confirm the pushed GitHub Actions run deploys Pages successfully.
-* Confirm the expected production URL works after GitHub Pages finishes publishing.
+* Production deployment verification is now complete.
+
+---
+
+## 2026-06-19 - Production Pages Verification
+
+**Agent:** Codex main agent with release QA subagent review.
+
+**Completed:**
+
+* Enabled GitHub Pages with GitHub Actions as the repository Pages source.
+* Re-ran the failed Pages deployment job after Pages was enabled.
+* Confirmed GitHub Actions run `27816609843`, attempt 2, passed build/test, Docker image health check, and GitHub Pages deployment.
+* Extended `scripts/browser-smoke.mjs` with `SMOKE_BASE_URL` so the same smoke runner can validate deployed static hosts.
+* Documented local and remote smoke commands in the README and deployment guide.
+* Updated status handoff files so PMV-008 and PMV-009 are marked complete.
+
+**Changed files:**
+
+* `README.md`
+* `deploy/README.md`
+* `scripts/browser-smoke.mjs`
+* `status/CURRENT_CONTEXT.md`
+* `status/NEXT_ACTIONS.md`
+* `status/PROGRESS_LOG.md`
+
+**Verification:**
+
+* `npm.cmd run verify:deploy`: passed, including 16 test files / 95 tests, production build, and local browser smoke.
+* Remote browser smoke passed against `https://geniusjunmin.github.io/uk-driving-trainer/` with screenshot size 70102 bytes.
+* Production URL returned HTTP 200 and loaded the expected app shell.
+
+**Known follow-ups:**
+
+* PMV-006 remains open: review unintegrated `src/scene/TownScene.ts`, `src/ui/LevelSelectUI.ts`, and `src/ui/town.css` before adopting them.
 
 ---
 
