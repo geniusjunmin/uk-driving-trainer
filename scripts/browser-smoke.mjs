@@ -32,16 +32,24 @@ if (!chromePath) {
   fail('Chrome or Edge executable was not found. Set CHROME_BIN to run browser smoke.');
 }
 
+const commonChromeArgs = [
+  '--headless=new',
+  '--disable-gpu',
+  '--disable-dev-shm-usage',
+  '--enable-unsafe-swiftshader',
+  '--ignore-gpu-blocklist',
+  '--no-sandbox',
+  '--use-gl=swiftshader',
+  '--window-size=1280,720',
+];
+
 const server = createStaticServer(distRoot);
 
 try {
   await listen(server, port, host);
 
   await runChrome([
-    '--headless=new',
-    '--disable-gpu',
-    '--no-sandbox',
-    '--window-size=1280,720',
+    ...commonChromeArgs,
     '--virtual-time-budget=5000',
     `--screenshot=${screenshotPath}`,
     `${baseUrl}/`,
@@ -53,10 +61,7 @@ try {
   }
 
   const resultDom = await runChrome([
-    '--headless=new',
-    '--disable-gpu',
-    '--no-sandbox',
-    '--window-size=1280,720',
+    ...commonChromeArgs,
     '--virtual-time-budget=7000',
     '--dump-dom',
     `${baseUrl}/?smoke=results`,

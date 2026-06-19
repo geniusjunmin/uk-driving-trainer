@@ -116,6 +116,9 @@ This log records major handoff events and verification results. Source code, tes
 **Verification:**
 
 * `npm.cmd run verify:deploy`: passed locally after the Pages asset-path change.
+* First GitHub Actions run proved Docker image build and container health check passed.
+* First GitHub Actions browser-smoke run failed because Ubuntu headless Chrome produced a tiny blank screenshot without software WebGL.
+* Added SwiftShader/software-rendering flags to `scripts/browser-smoke.mjs`; `npm.cmd run verify:deploy` passed locally again after the fix.
 
 **Known follow-ups:**
 
